@@ -21,11 +21,6 @@ def get_python_files():
     )
     return jsonify(result.data)
 
-# @app.route("/files/python", methods=['POST'])
-# def add_python_file():
-#     files.append(request.get_json())
-#     return '', 204
-
 @app.route("/files/javascript")
 def get_javascript_files():
     schema = JavaScriptFileSchema(many=True)
@@ -41,3 +36,21 @@ def get_text_files():
         filter(lambda t: t.extension == FileExtension.TEXT.value, files)
     )
     return jsonify(result.data)
+
+@app.route("/files/python", methods=['POST'])
+def add_python_file():
+    new_python_file = PythonFileSchema().load(request.get_json())
+    files.append(new_python_file.data)
+    return '', 204
+
+@app.route("/files/javascript", methods=['POST'])
+def add_javascript_file():
+    new_javascript_file = JavaScriptFileSchema().load(request.get_json())
+    files.append(new_javascript_file.data)
+    return '', 204
+
+@app.route("/files/text", methods=['POST'])
+def add_text_file():
+    new_text_file = TextFileSchema().load(request.get_json())
+    files.append(new_text_file.data)
+    return '', 204
