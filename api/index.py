@@ -2,13 +2,15 @@ from flask import Flask, jsonify, request
 
 from api.models.python import PythonFile, PythonFileSchema
 from api.models.javascript import JavaScriptFile, JavaScriptFileSchema
+from api.models.text import TextFile, TextFileSchema
 from api.models.file_extension import FileExtension
 app = Flask(__name__)
 
 files = [
     PythonFile('sample file 1', 'test content 1'),
     PythonFile('sample file 2', 'test content 2'),
-    JavaScriptFile('sample JS file 1', 'sample JS content 1')
+    JavaScriptFile('sample JS file 1', 'sample JS content 1'),
+    TextFile('sample text file', 'sample text file content 1'),
 ]
 
 @app.route("/files/python")
@@ -29,5 +31,13 @@ def get_javascript_files():
     schema = JavaScriptFileSchema(many=True)
     result = schema.dump(
         filter(lambda t: t.extension == FileExtension.JAVASCRIPT.value, files)
+    )
+    return jsonify(result.data)
+
+@app.route("/files/text")
+def get_text_files():
+    schema = TextFileSchema(many=True)
+    result = schema.dump(
+        filter(lambda t: t.extension == FileExtension.TEXT.value, files)
     )
     return jsonify(result.data)
