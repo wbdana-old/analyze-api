@@ -4,7 +4,6 @@ from .file_extension import FileExtension
 
 class PythonFile(File):
     def __init__(self, name, content):
-        print(FileExtension.PYTHON.value)
         super().__init__(name, content, FileExtension.PYTHON.value)
 
     def __repr__(self):
