@@ -13,6 +13,7 @@ files = [
     TextFile('sample text file', 'sample text file content 1'),
 ]
 
+# GET routes
 @app.route("/files/python")
 def get_python_files():
     schema = PythonFileSchema(many=True)
@@ -37,6 +38,7 @@ def get_text_files():
     )
     return jsonify(result.data)
 
+# POST routes
 @app.route("/files/python", methods=['POST'])
 def add_python_file():
     new_python_file = PythonFileSchema().load(request.get_json())
